@@ -37,8 +37,8 @@ class UploadToHuggingFaceNode:
         try:
             # Realizar o upload do arquivo para o repositório no Hugging Face Hub
             api = HfApi()
-            api.upload_file(
-                path_or_fileobj=file_path,
+            api.upload_folder(
+                folder_path=file_path,
                 repo_id=repo_id,
                 repo_type=repo_type,
                 path_in_repo=caminho
