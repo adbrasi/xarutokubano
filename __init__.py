@@ -66,8 +66,7 @@ class SplitMaskNode:
 
     def execute_split_mask(self, image_path, mask_path):
         # Comando a ser executado
-        command = ["python", "/home/studio-lab-user/ComfyUI/custom_nodes/xarutokubano/split-mask.py", "--image", image_path, "--mask", mask_path]
-
+        command = ["python", "/home/studio-lab-user/ComfyUI/custom_nodes/xarutokubano/mask-separation.py", "--image", image_path, "--mask", mask_path]
         try:
             # Executar o comando usando subprocess
             result = subprocess.run(command, capture_output=True, text=True, check=True)
@@ -97,7 +96,7 @@ class SplitNode:
 
     def execute_split(self, image_path, output_path):
         # Comando a ser executado
-        command = ["python", "/home/studio-lab-user/test/ComfyUI/custom_nodes/split.py", "--image", image_path, "--output", output_path]
+        command = ["python", "/home/studio-lab-user/ComfyUI/custom_nodes/split.py", "--image", image_path, "--output", output_path]
 
         try:
             # Executar o comando usando subprocess
@@ -107,7 +106,7 @@ class SplitNode:
             return (output,)
         except subprocess.CalledProcessError as e:
             # Se ocorrer um erro, retornar uma mensagem de erro
-            return (f"Erro ao executar o comando: {e.stderr}",)
+            return (f"Erro ao executar o comandox: {e.stderr}",)
 
 import os
 import zipfile
@@ -134,7 +133,7 @@ class ZipFolderNode:
         folder_name = os.path.basename(folder_path)
 
         # Define o nome do arquivo zip
-        zip_file_path = os.path.join(os.path.dirname(folder_path), f"{folder_name}.zip")
+        zip_file_path = os.path.join('/home/studio-lab-user/ComfyUI/custom_nodes/xarutokubano/zipes', f"{folder_name}.zip")
 
         try:
             # Cria o arquivo zip
@@ -146,9 +145,10 @@ class ZipFolderNode:
                         # Adiciona o arquivo ao arquivo zip preservando a estrutura de pastas
                         zipf.write(file_path, os.path.relpath(file_path, folder_path))
 
-            return (zip_file_path)
+            return (zip_file_path,)
         except Exception as e:
             return (f"Ocorreu um erro ao comprimir a pasta '{folder_path}': {e}",)
+
 
         
 # Mapeamento das classes de nós personalizados
