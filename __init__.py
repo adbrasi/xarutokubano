@@ -170,11 +170,11 @@ class LorabyNode:
         # Comando a ser executado
         command = [
             "python", 
-            "/content/wildcards/loraby.py",
+            "/home/studio-lab-user/ComfyUI/custom_nodes/xarutokubano/loraby.py",
             "-input",
             input_string,
             "-json",
-            "/content/file.json"
+            "/home/studio-lab-user/ComfyUI/output.json"
         ]
 
         try:
@@ -189,6 +189,45 @@ class LorabyNode:
 
     
 
+    
+    
+import subprocess
+
+class TokenbyNode:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "token_wild": ("STRING", {})
+            }
+        }
+
+    RETURN_TYPES = ("STRING",)
+    FUNCTION = "execute_tokenby"
+    CATEGORY = "custom"
+
+    def execute_tokenby(self, token_wild):
+        # Comando a ser executado
+        command = [
+            "python", 
+            "/home/studio-lab-user/ComfyUI/custom_nodes/xarutokubano/tokenby.py",
+            "-input",
+            token_wild,
+            "-json",
+            "/home/studio-lab-user/ComfyUI/output.json"
+        ]
+
+        try:
+            # Executar o comando usando subprocess
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+            # Capturar a saída do processo
+            output = result.stdout.strip()
+            return (output,)
+        except subprocess.CalledProcessError as e:
+            # Se ocorrer um erro, retornar uma mensagem de erro
+            return (f"Erro ao executar o comando: {e.stderr}",)
+
+    
 
         
 # Mapeamento das classes de nós personalizados
@@ -196,6 +235,7 @@ NODE_CLASS_MAPPINGS = {
     "ZipFolderNode": ZipFolderNode,
     "UploadToHuggingFaceNode": UploadToHuggingFaceNode,
     "SplitNode": SplitNode,
-    "find Lora by token": LorabyNode,
+    "Find Lora by token": LorabyNode,
+    "Prompt by token":TokenbyNode,
     "SplitMaskNode": SplitMaskNode
 }
