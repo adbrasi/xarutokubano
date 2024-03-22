@@ -150,11 +150,52 @@ class ZipFolderNode:
             return (f"Ocorreu um erro ao comprimir a pasta '{folder_path}': {e}",)
 
 
+
+import subprocess
+
+class LorabyNode:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "input_string": ("STRING", {})
+            }
+        }
+
+    RETURN_TYPES = ("STRING",)
+    FUNCTION = "execute_loraby"
+    CATEGORY = "custom"
+
+    def execute_loraby(self, input_string):
+        # Comando a ser executado
+        command = [
+            "python", 
+            "/content/wildcards/loraby.py",
+            "-input",
+            input_string,
+            "-json",
+            "/content/file.json"
+        ]
+
+        try:
+            # Executar o comando usando subprocess
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+            # Capturar a saída do processo
+            output = result.stdout.strip()
+            return (output,)
+        except subprocess.CalledProcessError as e:
+            # Se ocorrer um erro, retornar uma mensagem de erro
+            return (f"Erro ao executar o comando: {e.stderr}",)
+
+    
+
+
         
 # Mapeamento das classes de nós personalizados
 NODE_CLASS_MAPPINGS = {
     "ZipFolderNode": ZipFolderNode,
     "UploadToHuggingFaceNode": UploadToHuggingFaceNode,
     "SplitNode": SplitNode,
+    "find Lora by token": LorabyNode,
     "SplitMaskNode": SplitMaskNode
 }
